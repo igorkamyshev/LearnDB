@@ -3,3 +3,5 @@ yarn.lock
 *.log
 dist
 usage.js
+db_temp
+db_bench

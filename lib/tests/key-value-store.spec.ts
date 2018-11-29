@@ -1,3 +1,6 @@
+import * as path from 'path'
+import * as shell from 'shelljs'
+
 import { KeyValueStore } from '../key-value-store'
 
 describe('KeyValueStore', () => {
@@ -5,11 +8,26 @@ describe('KeyValueStore', () => {
   const testValue1 = 'test-value-1'
   const testValue2 = 'test-value-2'
 
-  let keyValueStore
+  const dbTempPath = path.resolve(__dirname, '../../db_temp')
+
+  let keyValueStore = null
+  let dbPath: string = null
+  let testId = 1
+
+  beforeAll(() => {
+    expect(dbTempPath.endsWith('db_temp')).toBeTruthy()
+
+    shell.rm('-rf', dbTempPath)
+  })
 
   beforeEach(() => {
-    keyValueStore = new KeyValueStore()
+    dbPath = path.resolve(
+      dbTempPath,
+      process.pid.toString() + '_' + (testId++).toString(),
+    )
+    shell.mkdir('-p', dbPath)
 
+    keyValueStore = new KeyValueStore({ dbPath })
     keyValueStore.init()
   })
 
