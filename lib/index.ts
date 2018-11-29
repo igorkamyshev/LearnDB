@@ -1,5 +1,5 @@
 class LearnDB {
-  init = () => console.log('helolo')
+  public init = () => 'hello'
 }
 
 export {
